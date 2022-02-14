@@ -29,13 +29,13 @@ d
 n
 => default = 1
 => default
-=> 1G
+=> +1G
 
 # create a swap partition
 n
 => default = 2
 => default
-=> 32G # take the side of your RAM or 
+=> +32G # take the size of your RAM or half of it
 
 # partition for our Linux system
 n
