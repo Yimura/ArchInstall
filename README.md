@@ -17,6 +17,14 @@ timedatectl set-ntp true
 Setup partitioning:
 ```sh
 fdisk -l
+```
+Look for the model of disk you want to install the OS on
+Write the the disk down. Common names used are /dev/sdX or /dev/nvme0nX. Where X should be replaced with the disk letter
+
+Example used: /dev/nvme0n1. Replace with corresponding disk
+
+```sh
+
 
 fdisk /dev/nvme0n1
 
@@ -29,7 +37,8 @@ d
 n
 => default = 1
 => default
-=> +1G
+# EFI partition can be between 100M and 550M
+=> +550M
 
 # create a swap partition
 n
