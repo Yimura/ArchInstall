@@ -37,7 +37,7 @@ d
 n
 => default = 1
 => default
-# Swap partition can be between 100M and 550M
+# EFI partition can be between 100M and 550M
 => +550M
 
 # create a swap partition
