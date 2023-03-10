@@ -4,11 +4,6 @@
 
 ## Pre-chroot
 
-Set the keyboard layout for this session:
-```sh
-loadkeys be-latin1
-```
-
 Update system clock:
 ```sh
 timedatectl set-ntp true
@@ -29,16 +24,16 @@ Example used: /dev/nvme0n1. Replace with corresponding disk
 fdisk /dev/nvme0n1
 
 # the following commands are ran inside fdisk
-# delete existing partitions with
+# delete existing partitions with, run the d command until you have no partitions left
 d
 => 1,2,3,...
 
-# create new partition for EFI of 1GiB
+# create new partition for EFI
 n
 => default = 1
 => default
-# EFI partition can be between 100M and 550M
-=> +550M
+# EFI partition can be between 500M and 1 G
+=> +800M
 
 # create a swap partition
 n
@@ -56,10 +51,11 @@ n
 t
 => 1
 
-# Write changes
+# Write changes  --IMPORTANT--
 w
 ```
 
+assuming your disk name is /dev/nvme0n1
 Format Partitions:
 ```bash
 mkfs.ext4 /dev/nvme0n1p3
@@ -121,7 +117,6 @@ Localization:
 ```bash
 nano /etc/locale.gen
 
-
 # uncomment accordingly
 en_US.UTF-8
 nl_BE.UTF-8
@@ -131,13 +126,6 @@ nl_BE.UTF-8
 nano /etc/locale.conf
 
 LANG=en_US.UTF-8
-```
-
-Set tty console default:
-```bash
-nano /etc/vconsole.conf
-
-KEYMAP=be-latin1
 ```
 
 ### Hostname
@@ -155,7 +143,7 @@ Set our root password:
 passwd
 ```
 
-Create a normal user:
+Create a normal user DO NOT FORGET -m :
 ```bash
 useradd -m username
 ```
@@ -167,6 +155,7 @@ passwd username
 
 ### Installing boot loader
 
+## `OPTION 1: REFIND (NOT RECOMMENDED)`
 ```bash
 pacman -S refind
 ```
@@ -218,8 +207,14 @@ Make sure what you find in this file looks about the same as the below content, 
 ```
 Also replace `amd-ucode` with `intel-ucode` if you have an intel CPU.
 
-### Installing KDE plasma
+## `OPTION 2: bootctl (RECOMMENDED)`
 
+```bash
+bootctl install
+```
+
+### Installing KDE plasma
+`important` use plasma-desktop if you want a basic set of utilities like text editor, calculator, file explorer,....
 ```bash
 pacman -S xorg-server plasma-meta
 ```
@@ -229,10 +224,11 @@ Enabling SDDM and NetworkManager (not sure if required but it doesn't hurt to do
 systemctl enable sddm NetworkManager
 ```
 
-### Install a Terminal Emulator
-
+### Install a Terminal and file explorer
+you can use others, we use these and they work great
+flatpak is for software installation using discover
 ```bash
-pacman -S konsole
+pacman -S konsole dolphin flatpak
 ```
 
 ### Setup Sudo
