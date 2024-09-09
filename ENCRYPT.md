@@ -179,6 +179,20 @@ Setup bootctl entry:
 ```bash
 echo -e "title\tArch Linux (Crypt LVM)\nlinux\t/vmlinuz-linux\ninitrd\t/initramfs-linux.img\noptions\tcryptdevice=PARTUUID=$(blkid -s PARTUUID -o value /dev/nvme0n1p2):cryptlvm root=/dev/lvm/root" > /boot/loader/entries/arch-lvm.conf
 ```
+Or alternatively writing the file manually, write the output from the below command down:
+```bash
+blkid -s PARTUUID -o value /dev/nvme0n1p2
+```
+
+Replace the `$(blkid -s PARTUUID -o value /dev/nvme0n1p2)`, with the command output you got earlier:
+```bash
+nano /boot/loader/entries/arch-lvm.conf
+
+title  Arch Linux (Crypt LVM)
+linux  /vmlinuz-linux
+initrd  /initramfs-linux.img
+options  cryptdevice=PARTUUID=$(blkid -s PARTUUID -o value /dev/nvme0n1p2):cryptlvm root=/dev/lvm/root
+```
 
 ### Install GUI
 ```bash
